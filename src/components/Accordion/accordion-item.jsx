@@ -1,21 +1,21 @@
-import { useAccordionCtx } from './accordion';
+import { createContext, useContext } from 'react';
 
-export default function AccordionItem({ id, title, children, className }) {
-  const { openItem, openItemId, closeItem } = useAccordionCtx();
+const AccordionItemCtx = createContext({
+  id: '',
+});
 
-  const isOpen = openItemId === id;
+export function useAccordionItemCtx() {
+  const ctx = useContext(AccordionItemCtx);
 
+  if (!ctx) throw new Error('Accordion item context used outside it provider');
+
+  return ctx;
+}
+
+export default function AccordionItem({ id, children, className }) {
   return (
-    <li className={className}>
-      <h3
-        className='accordion-item-title'
-        onClick={() => (isOpen ? closeItem() : openItem(id))}
-      >
-        {title}
-      </h3>
-      <div className={`accordion-item-content ${isOpen ? 'open' : ''}`}>
-        {children}
-      </div>
-    </li>
+    <AccordionItemCtx.Provider value={{ id }}>
+      <li className={className}>{children}</li>
+    </AccordionItemCtx.Provider>
   );
 }

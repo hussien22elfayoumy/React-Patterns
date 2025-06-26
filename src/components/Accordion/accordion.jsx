@@ -1,26 +1,31 @@
 import { createContext, useContext, useState } from 'react';
+import AccordionItem from './accordion-item';
+import AccordionTitle from './accordion-title';
+import AccordionContent from './accordion-content';
 
 const AccordionCtx = createContext({
-  openItem: () => {},
-  closeItem: () => {},
+  toggleOpen: () => {},
   openItemId: null,
 });
+
+export function useAccordionCtx() {
+  const ctx = useContext(AccordionCtx);
+
+  if (!ctx) throw new Error('Accordion context used outside its provider');
+
+  return ctx;
+}
 
 export default function Accordion({ children, className }) {
   const [openItemId, setOpenItemId] = useState(null);
 
-  function openItem(id) {
-    setOpenItemId(id);
-  }
-
-  function closeItem() {
-    setOpenItemId(null);
+  function toggleOpen(id) {
+    setOpenItemId((prevId) => (prevId === id ? null : id));
   }
 
   const ctxValue = {
     openItemId,
-    openItem,
-    closeItem,
+    toggleOpen,
   };
 
   return (
@@ -30,10 +35,6 @@ export default function Accordion({ children, className }) {
   );
 }
 
-export function useAccordionCtx() {
-  const ctx = useContext(AccordionCtx);
-
-  if (!ctx) throw new Error('Accordion context used outside its provider');
-
-  return ctx;
-}
+Accordion.Item = AccordionItem;
+Accordion.Title = AccordionTitle;
+Accordion.Content = AccordionContent;
