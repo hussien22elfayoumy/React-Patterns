@@ -1,4 +1,7 @@
 import Accordion from './components/Accordion/accordion';
+import SearchableList from './components/SearchableList/searchable-list';
+import { PLACES } from './assets/data/places';
+import Place from './components/place';
 
 export default function App() {
   return (
@@ -63,6 +66,16 @@ export default function App() {
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
+      </section>
+
+      <section>
+        <SearchableList items={PLACES}>
+          {(item) => <Place item={item} />}
+        </SearchableList>
+
+        <SearchableList items={['item 1', 'item 2', 'item 3', 'item 4']}>
+          {(item) => <p>{item}</p>}
+        </SearchableList>
       </section>
     </main>
   );
