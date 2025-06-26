@@ -69,11 +69,14 @@ export default function App() {
       </section>
 
       <section>
-        <SearchableList items={PLACES}>
+        <SearchableList items={PLACES} itemKeyFn={(item) => item.id}>
           {(item) => <Place item={item} />}
         </SearchableList>
 
-        <SearchableList items={['item 1', 'item 2', 'item 3', 'item 4']}>
+        <SearchableList
+          items={['item 1', 'item 2', 'item 3', 'item 4', 'item 5']}
+          itemKeyFn={(item) => item}
+        >
           {(item) => <p>{item}</p>}
         </SearchableList>
       </section>
